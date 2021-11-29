@@ -30,7 +30,6 @@ attr_reader :name, :type, :num , :num_station , :cars
 
   def del_cars #(car)
   @cars.delete_at(@cars.count - 1) if @speed.zero? 
-  @cars.each { |car| puts car.number }
   end
 
 
