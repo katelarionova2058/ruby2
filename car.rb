@@ -1,10 +1,11 @@
 class Car
 
-attr_accessor :type, :number
+  attr_accessor :type,
+                :number
 
-def initialize(number)
+  def initialize(number)
     @number = number
-    @type = type
-end
+    @type   = type
+  end
 
 end
