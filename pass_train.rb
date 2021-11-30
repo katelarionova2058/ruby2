@@ -1,10 +1,9 @@
 class PassTrain < Train
 
-@trains = {}
+  @trains = {}
 
-  def initialize 
+  def initialize (name)
     super
     @type = :pass
   end
 end
-
