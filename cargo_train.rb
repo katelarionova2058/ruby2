@@ -7,4 +7,3 @@ class CargoTrain < Train
     @type = :cargo
   end
 end
-
