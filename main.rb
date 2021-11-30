@@ -8,62 +8,57 @@ require_relative 'route'
 
 class Controller
 
-def menu
-puts "Меню:"
-puts "1 - Создать станцию"
-puts "2 - Создать поезд"
-puts "3 - Создать маршрут"
-puts "4 - Изменить маршрут"
-puts "5 - Назначить поезду маршрут"
-puts "6 - Изменить состав поезда"
-puts "7 - Переместить поезд"
-puts "8 - Информация"
-end
-
-
-attr_reader :stations,
-              :trains,
-              :routes
-
-      def initialize
-          
-          @stations = []
-          @trains = []
-          @routes = []
-          loop do
-          menu
-          run
-          end
-      end
-
-def run
-      puts "Что вы хотите сделать?"
-      action = gets.chomp
-      case action
-        when "1"
-          new_station
-        when "2"
-          when_2
-        when "3"
-          new_route
-        when "4"
-          when_4
-        when "5"
-          train_to_roat
-        when "6"
-          when_6
-        when "7"
-          when_7
-        when "8"
-          when_8
-        when "9"
-          exit
-      end
-   end
+  def menu
+    puts "Меню:"
+    puts "1 - Создать станцию"
+    puts "2 - Создать поезд"
+    puts "3 - Создать маршрут"
+    puts "4 - Изменить маршрут"
+    puts "5 - Назначить поезду маршрут"
+    puts "6 - Изменить состав поезда"
+    puts "7 - Переместить поезд"
+    puts "8 - Информация"
   end
 
 
+  attr_reader :stations,
+              :trains,
+              :routes
 
+  def initialize  
+    @stations = []
+    @trains   = []
+    @routes   = []
+    loop do
+      menu
+      run
+    end
+  end
+
+  def run
+    puts "Что вы хотите сделать?"
+    action = gets.chomp
+    case action
+      when "1"
+        new_station
+      when "2"
+        new_train
+      when "3"
+        new_route
+      when "4"
+        change_route
+      when "5"
+        train_to_roat
+      when "6"
+        railway_train
+      when "7"
+        moving
+      when "8"
+        info
+      else
+        exit
+    end
+  end
 
   def new_station
     puts "Укажите Наименование станции"
@@ -72,7 +67,7 @@ def run
     @stations.push(@station)
     puts "Создана станция #{name}"
     return @station
-  end
+   end
 
   def new_pass_trains
     puts "Укажите Наименование поезда"
@@ -88,7 +83,7 @@ def run
     train = CargoTrain.new(name) 
     @trains.push(train)
     puts "Поезд создан #{name}"
-    end
+  end
 
 
   def new_route
@@ -98,8 +93,7 @@ def run
     st_first = new_station
     puts "Конечная станция"
     st_last = new_station
-    @route = Route.new st_first , st_last, name_route 
-    #puts route.class
+    @route = Route.new st_first , st_last, name_route
     @routes.push(@route)
   end
 
@@ -150,10 +144,10 @@ def run
     search_of_train = @trains.bsearch { |train| train.name == train_get }
     puts "Укажите номер вагона"
     car_number = gets.chomp
-    car = Car.new car_number
+    car = Car.new (car_number)
     car.type = search_of_train.type
     search_of_train.add_cars(car)
-    end
+  end
 
 
 
@@ -171,70 +165,73 @@ def run
   def show_trains_on_st
     puts "Укажите название станции"
     station_get = gets.chomp
-    search_of_station = @stations.bsearch{ |station| station.name >= station_get }
-    puts search_of_station.class
-    search_of_station.show_trains
+    station_get = @stations.bsearch{ |station| station.name >= station_get }
+    puts station_get.name
+    station_get.show_trains
   end
 
-  def when_2
+  def new_train
     puts "Выберите тип поезда"
     puts "1 - грузовой "
     puts "2 - пассажирский"
     action_newtrain = gets.chomp
     case action_newtrain
-    when "1"
-      new_cargo_trains
-    when "2"
-      new_pass_trains 
+      when "1"
+        new_cargo_trains
+      when "2"
+        new_pass_trains 
     end
   end
 
-  def when_4
+  def change_route
     puts "1 - Добавить станцию"
     puts "2 - Удалить станцию"
     action_route = gets.chomp
     case action_route
-    when "1"
-      add_station_in_route
-    when "2"
-      del_station_in_route  
+      when "1"
+        add_station_in_route
+      when "2"
+        del_station_in_route  
     end
   end
 
-  def when_6
+  def railway_train
     puts "1 - добавить вагон"
     puts "2 - удалить вагон"
     action_train = gets.chomp
     case action_train
-    when "1"
-      add_car
-    when "2"
-     del_car
+      when "1"
+        add_car
+      when "2"
+       del_car
     end
   end
 
-  def when_7
+  def moving
     puts "1 - Переместить назад"
     puts "2 - Переместить вперед"
     action_move = gets.chomp
     case action_move
-    when "1"
-      move_to_back
-    when "2"
-      move_to_forward
+      when "1"
+        move_to_back
+      when "2"
+        move_to_forward
     end
   end
 
-  def when_8
+  def info
     puts "1 - Список станций"
     puts "2 - Список поездов на станции"
     action_info = gets.chomp
     case action_info
-    when "1"
-      show_stations
-    when "2"
-      show_trains_on_st 
+      when "1"
+        show_stations
+      when "2"
+        show_trains_on_st
     end
   end
+  
+
+end
 
 control =Controller.new
